@@ -4,6 +4,8 @@ import { ContactForm } from 'components/ContactForm/ContactForm';
 import { ContactList } from 'components/ContactList/ContactList';
 import { Filter } from 'components/Filter/Filter';
 
+const LS_KEY = 'list_phonebook';
+
 export class App extends Component {
   state = {
     contacts: [],
@@ -40,6 +42,22 @@ export class App extends Component {
       contact.name.toLowerCase().includes(normalizedFilter)
     );
   };
+
+  componentDidMount() {
+    const savedItems = JSON.parse(localStorage.getItem(LS_KEY));
+
+    if (savedItems) {
+      this.setState({ contacts: savedItems });
+    }
+  }
+
+  componentDidUpdate(prevProps, { contacts: prevContacts }) {
+    const { contacts } = this.state;
+
+    if (prevContacts.length !== contacts.length) {
+      localStorage.setItem(LS_KEY, JSON.stringify(contacts));
+    }
+  }
 
   render() {
     const { filter, contacts } = this.state;
