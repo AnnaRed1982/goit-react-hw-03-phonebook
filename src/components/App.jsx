@@ -7,6 +7,7 @@ import { Filter } from 'components/Filter/Filter';
 export class App extends Component {
   state = {
     contacts: [],
+
     filter: '',
   };
 
